@@ -10,114 +10,85 @@ import {
 
 
 import {
-  PlayerSearchResponse,
-  PlayerProfileResponse
+  PlayerSearchResponse
 } from "@/types/api";
 
 
 export class AOE4WorldClient {
 
-
-private baseUrl =
-  AOE4WORLD.API_URL;
-
+  private baseUrl =
+    AOE4WORLD.API_URL;
 
 
-async searchPlayers(
- query:string
-):Promise<AOE4Player[]> {
+  async searchPlayers(
+    query: string
+  ): Promise<AOE4Player[]> {
 
-
- const response =
- await fetch(
-
- `${this.baseUrl}/players/search?query=${encodeURIComponent(query)}`,
-
- {
-  next:{
-   revalidate:300
-  }
- }
-
- );
-
-
- if(!response.ok){
-
-  throw new Error(
-   "Player search failed"
-  );
-
- }
-
-
- const data:
- PlayerSearchResponse =
- await response.json();
-
-
- return data.players ?? [];
-
-}
-
-
-
-async getPlayer(
-  profileId: number
-): Promise<PlayerProfile> {
-
-  const response =
-    await fetch(
-      `${this.baseUrl}/players/${profileId}`,
-      {
-        next: {
-          revalidate: 300
+    const response =
+      await fetch(
+        `${this.baseUrl}/players/search?query=${encodeURIComponent(query)}`,
+        {
+          next: {
+            revalidate: 300
+          }
         }
-      }
-    );
+      );
 
 
-  if (!response.ok) {
+    if (!response.ok) {
 
-    throw new Error(
-      `Player lookup failed (${response.status})`
-    );
+      throw new Error(
+        `Player search failed (${response.status})`
+      );
+
+    }
+
+
+    const data:
+      PlayerSearchResponse =
+      await response.json();
+
+
+    return data.players ?? [];
 
   }
 
 
-  const data:
-    PlayerProfile =
-    await response.json();
+  async getPlayer(
+    profileId: number
+  ): Promise<PlayerProfile> {
+
+    const response =
+      await fetch(
+        `${this.baseUrl}/players/${profileId}`,
+        {
+          next: {
+            revalidate: 300
+          }
+        }
+      );
 
 
-  return data;
+    if (!response.ok) {
 
-}
+      throw new Error(
+        `Player lookup failed (${response.status})`
+      );
 
-
-if(!response.ok){
-
-throw new Error(
- "Player lookup failed"
-);
-
-}
+    }
 
 
-const data:
-PlayerProfileResponse =
-await response.json();
+    const data:
+      PlayerProfile =
+      await response.json();
 
 
-return data.player;
+    return data;
 
-}
-
-
+  }
 
 }
 
 
 export const aoe4world =
-new AOE4WorldClient();
+  new AOE4WorldClient();
