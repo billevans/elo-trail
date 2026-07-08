@@ -2,6 +2,7 @@ import {
   AOE4WORLD
 } from "@/lib/constants";
 
+
 import {
   AOE4Player
 } from "@/types/player";
@@ -22,25 +23,27 @@ export class AOE4WorldClient {
 
   async searchPlayers(
     query:string
-  )
-  :Promise<AOE4Player[]>{
+  ):Promise<AOE4Player[]> {
 
 
     const response =
       await fetch(
+
         `${this.baseUrl}/players/search?query=${encodeURIComponent(query)}`,
+
         {
           next:{
             revalidate:300
           }
         }
+
       );
 
 
     if(!response.ok){
 
       throw new Error(
-        "Unable to search players"
+        `aoe4world search failed (${response.status})`
       );
 
     }
@@ -51,7 +54,7 @@ export class AOE4WorldClient {
       await response.json();
 
 
-    return data.players;
+    return data.players ?? [];
 
   }
 
@@ -59,24 +62,26 @@ export class AOE4WorldClient {
 
   async getPlayer(
     id:string
-  )
-  {
+  ){
 
     const response =
       await fetch(
+
         `${this.baseUrl}/players/${id}`,
+
         {
           next:{
             revalidate:300
           }
         }
+
       );
 
 
     if(!response.ok){
 
       throw new Error(
-        "Unable to fetch player"
+        `Unable to fetch player (${response.status})`
       );
 
     }
@@ -85,6 +90,7 @@ export class AOE4WorldClient {
     return response.json();
 
   }
+
 
 }
 
