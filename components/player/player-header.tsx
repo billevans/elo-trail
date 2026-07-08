@@ -32,7 +32,12 @@ gap-6
 {
 player.avatar &&
 
-<img
+import Image from "next/image";
+
+<Image
+width={80}
+height={80}
+/>
 
 src={
 player.avatar
