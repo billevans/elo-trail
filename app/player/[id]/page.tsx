@@ -1,10 +1,10 @@
 import {
-notFound
+  notFound
 } from "next/navigation";
 
 
 import {
-aoe4world
+  aoe4world
 } from "@/services/aoe4world";
 
 
@@ -16,118 +16,87 @@ import StatsGrid
 from "@/components/player/stats-grid";
 
 
-
 interface Props {
-
-params:{
-id:string;
-};
-
+  params: Promise<{
+    id: string;
+  }>;
 }
-
 
 
 export default async function PlayerPage({
+  params
+}: Props) {
 
-params
-
-}:Props){
-
-
-const playerId =
-Number(
-params.id
-);
+  const {
+    id
+  } = await params;
 
 
-
-if(
-Number.isNaN(playerId)
-){
-
-notFound();
-
-}
+  const playerId =
+    Number(id);
 
 
-
-let player;
-
-
-try {
-
-
-player =
-await aoe4world.getPlayer(
-playerId
-);
+  if (
+    Number.isNaN(playerId)
+  ) {
+    notFound();
+  }
 
 
-}
-
-catch {
+  let player;
 
 
-notFound();
+  try {
 
-}
+    player =
+      await aoe4world.getPlayer(
+        playerId
+      );
 
+  } catch {
 
+    notFound();
 
-return (
-
-<div
-
-className="
-space-y-10
-"
-
->
+  }
 
 
-<PlayerHeader
+  return (
 
-player={
-player
-}
+    <div
+      className="
+        space-y-10
+      "
+    >
 
-/>
-
-
-
-<section>
-
-
-<h2
-
-className="
-mb-6
-text-2xl
-font-semibold
-"
-
->
-
-Ratings
-
-</h2>
+      <PlayerHeader
+        player={player}
+      />
 
 
+      <section>
 
-<StatsGrid
+        <h2
+          className="
+            mb-6
+            text-2xl
+            font-semibold
+          "
+        >
+          Ratings
+        </h2>
 
-ratings={
-player.ratings ?? []
-}
 
-/>
+        <StatsGrid
+          ratings={
+            player.ratings ?? []
+          }
+        />
+
+      </section>
 
 
-</section>
+    </div>
 
-
-</div>
-
-);
+  );
 
 }
