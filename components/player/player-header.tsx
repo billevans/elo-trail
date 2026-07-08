@@ -1,120 +1,83 @@
+import Image from "next/image";
+
 import {
   PlayerProfile
 } from "@/types/player";
 
 
 interface Props {
-
-player:
-PlayerProfile;
-
+  player: PlayerProfile;
 }
 
 
 export default function PlayerHeader({
+  player
+}: Props) {
 
-player
+  return (
 
-}:Props){
+    <div
+      className="
+        flex
+        items-center
+        gap-6
+      "
+    >
 
+      {
+        player.avatar &&
 
-return (
-
-<div
-className="
-flex
-items-center
-gap-6
-"
->
-
-
-{
-player.avatar &&
-
-import Image from "next/image";
-
-<Image
-width={80}
-height={80}
-/>
-
-src={
-player.avatar
-}
-
-alt={
-player.name
-}
-
-className="
-h-20
-w-20
-rounded-full
-"
-/>
-
-}
+        <Image
+          src={player.avatar}
+          alt={player.name}
+          width={80}
+          height={80}
+          className="
+            h-20
+            w-20
+            rounded-full
+          "
+        />
+      }
 
 
+      <div>
 
-<div>
-
-
-<h1
-
-className="
-text-4xl
-font-bold
-"
-
->
-
-{player.name}
-
-</h1>
+        <h1
+          className="
+            text-4xl
+            font-bold
+          "
+        >
+          {player.name}
+        </h1>
 
 
-
-<p
-
-className="
-text-slate-400
-"
-
->
-
-Profile ID:
-{player.profile_id}
-
-</p>
+        <p
+          className="
+            text-slate-400
+          "
+        >
+          Profile ID: {player.profile_id}
+        </p>
 
 
-{
-player.country &&
+        {
+          player.country &&
 
-<p
+          <p
+            className="
+              text-sm
+              text-slate-400
+            "
+          >
+            {player.country}
+          </p>
+        }
 
-className="
-text-sm
-text-slate-400
-"
+      </div>
 
->
+    </div>
 
-{player.country}
-
-</p>
-
-}
-
-
-
-</div>
-
-
-</div>
-
-);
-
+  );
 }
