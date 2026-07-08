@@ -63,22 +63,37 @@ async searchPlayers(
 
 
 async getPlayer(
- profileId:number
-):Promise<PlayerProfile>{
+  profileId: number
+): Promise<PlayerProfile> {
+
+  const response =
+    await fetch(
+      `${this.baseUrl}/players/${profileId}`,
+      {
+        next: {
+          revalidate: 300
+        }
+      }
+    );
 
 
-const response =
-await fetch(
+  if (!response.ok) {
 
-`${this.baseUrl}/players/${profileId}`,
+    throw new Error(
+      `Player lookup failed (${response.status})`
+    );
 
-{
- next:{
-  revalidate:300
- }
+  }
+
+
+  const data:
+    PlayerProfile =
+    await response.json();
+
+
+  return data;
+
 }
-
-);
 
 
 if(!response.ok){
