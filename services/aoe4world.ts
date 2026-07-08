@@ -4,96 +4,105 @@ import {
 
 
 import {
-  AOE4Player
+  AOE4Player,
+  PlayerProfile
 } from "@/types/player";
 
 
 import {
-  PlayerSearchResponse
+  PlayerSearchResponse,
+  PlayerProfileResponse
 } from "@/types/api";
 
 
 export class AOE4WorldClient {
 
 
-  private baseUrl =
-    AOE4WORLD.API_URL;
+private baseUrl =
+  AOE4WORLD.API_URL;
 
 
 
-  async searchPlayers(
-    query:string
-  ):Promise<AOE4Player[]> {
+async searchPlayers(
+ query:string
+):Promise<AOE4Player[]> {
 
 
-    const response =
-      await fetch(
+ const response =
+ await fetch(
 
-        `${this.baseUrl}/players/search?query=${encodeURIComponent(query)}`,
+ `${this.baseUrl}/players/search?query=${encodeURIComponent(query)}`,
 
-        {
-          next:{
-            revalidate:300
-          }
-        }
-
-      );
-
-
-    if(!response.ok){
-
-      throw new Error(
-        `aoe4world search failed (${response.status})`
-      );
-
-    }
-
-
-    const data:
-      PlayerSearchResponse =
-      await response.json();
-
-
-    return data.players ?? [];
-
+ {
+  next:{
+   revalidate:300
   }
+ }
+
+ );
+
+
+ if(!response.ok){
+
+  throw new Error(
+   "Player search failed"
+  );
+
+ }
+
+
+ const data:
+ PlayerSearchResponse =
+ await response.json();
+
+
+ return data.players ?? [];
+
+}
 
 
 
-  async getPlayer(
-    id:string
-  ){
-
-    const response =
-      await fetch(
-
-        `${this.baseUrl}/players/${id}`,
-
-        {
-          next:{
-            revalidate:300
-          }
-        }
-
-      );
+async getPlayer(
+ profileId:number
+):Promise<PlayerProfile>{
 
 
-    if(!response.ok){
+const response =
+await fetch(
 
-      throw new Error(
-        `Unable to fetch player (${response.status})`
-      );
+`${this.baseUrl}/players/${profileId}`,
 
-    }
+{
+ next:{
+  revalidate:300
+ }
+}
+
+);
 
 
-    return response.json();
+if(!response.ok){
 
-  }
+throw new Error(
+ "Player lookup failed"
+);
+
+}
+
+
+const data:
+PlayerProfileResponse =
+await response.json();
+
+
+return data.player;
+
+}
+
 
 
 }
 
 
 export const aoe4world =
-  new AOE4WorldClient();
+new AOE4WorldClient();
