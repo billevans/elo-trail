@@ -1,96 +1,86 @@
 import {
-  NextRequest,
-  NextResponse
+NextRequest,
+NextResponse
 } from "next/server";
 
 
 import {
-  aoe4world
+aoe4world
 } from "@/services/aoe4world";
 
 
 import {
-  playerSearchSchema
+playerSearchSchema
 } from "@/lib/validation";
 
 
+
 export async function GET(
-  request: NextRequest
+request:NextRequest
 ){
 
-  try {
-
-    const query =
-      request
-      .nextUrl
-      .searchParams
-      .get("query");
+try{
 
 
-    const validation =
-      playerSearchSchema.safeParse({
-        query
-      });
+const query =
+request
+.nextUrl
+.searchParams
+.get("query");
 
 
-    if(
-      !validation.success
-    ){
 
-      return NextResponse.json(
-
-        {
-          error:
-            validation
-            .error
-            .issues[0]
-            .message
-        },
-
-        {
-          status:400
-        }
-
-      );
-
-    }
+const result =
+playerSearchSchema.safeParse({
+query
+});
 
 
-    const players =
-      await aoe4world.searchPlayers(
-        validation.data.query
-      );
+
+if(!result.success){
+
+return NextResponse.json(
+{
+error:
+result.error.issues[0].message
+},
+{
+status:400
+}
+);
+
+}
 
 
-    return NextResponse.json({
 
-      players
-
-    });
-
-
-  }
-  catch(error){
-
-    console.error(
-      "Player search failed:",
-      error
-    );
+const players =
+await aoe4world.searchPlayers(
+result.data.query
+);
 
 
-    return NextResponse.json(
 
-      {
-        error:
-          "Unable to search players"
-      },
+return NextResponse.json({
+players
+});
 
-      {
-        status:500
-      }
 
-    );
+}
 
-  }
+catch(error){
+
+
+return NextResponse.json(
+{
+error:
+"Search unavailable"
+},
+{
+status:500
+}
+);
+
+
+}
 
 }
