@@ -86,11 +86,11 @@ export default async function PlayerPage({
         </h2>
 
 
-        <StatsGrid
-          ratings={
-            player.ratings ?? []
-          }
-        />
+       <StatsGrid
+      ratings={
+    player?.ratings ?? []
+    }
+  />
 
       </section>
 
