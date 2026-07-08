@@ -1,24 +1,25 @@
-import { AOE4Player } from "./player";
+import {
+  AOE4Player,
+  PlayerProfile
+} from "./player";
 
 
 export interface PlayerSearchResponse {
 
-  players: AOE4Player[];
+  players:AOE4Player[];
 
 }
 
 
-export interface PlayerResponse {
+export interface PlayerProfileResponse {
 
-  player: AOE4Player;
+  player:PlayerProfile;
 
 }
 
 
 export interface ApiError {
 
-  message:string;
-
-  status?:number;
+  error:string;
 
 }
