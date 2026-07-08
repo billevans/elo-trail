@@ -4,18 +4,19 @@ import {
 } from "./player";
 
 
-export type PlayerProfileResponse = PlayerProfile;
+export interface PlayerSearchResponse {
 
-
-export interface PlayerProfileResponse {
-
-  player:PlayerProfile;
+  players: AOE4Player[];
 
 }
 
 
+export type PlayerProfileResponse =
+  PlayerProfile;
+
+
 export interface ApiError {
 
-  error:string;
+  error: string;
 
 }
