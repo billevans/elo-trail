@@ -1,9 +1,47 @@
-export default function HomePage() {
+export default function HomePage(){
+
   return (
-    <main className="min-h-screen flex items-center justify-center">
-      <h1 className="text-5xl font-bold">
-        ELO Trail
-      </h1>
-    </main>
+
+    <section
+      className="
+        flex
+        min-h-[60vh]
+        items-center
+        justify-center
+        text-center
+      "
+    >
+
+      <div>
+
+        <h1
+          className="
+            text-5xl
+            font-bold
+          "
+        >
+
+          ELO Trail
+
+        </h1>
+
+
+        <p
+          className="
+            mt-4
+            text-slate-400
+          "
+        >
+
+          Age of Empires IV rating history tracker
+
+        </p>
+
+
+      </div>
+
+    </section>
+
   );
+
 }
