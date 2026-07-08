@@ -28,13 +28,33 @@ id:string
 
 const {
 id
-}=await params;
+}
+=
+await params;
 
+
+const leaderboard =
+request
+.nextUrl
+.searchParams
+.get(
+"leaderboard"
+)
+??
+"rm_solo";
+
+
+
+try {
 
 
 const history =
 await getPlayerRatingHistory(
-Number(id)
+
+Number(id),
+
+leaderboard
+
 );
 
 
@@ -42,5 +62,27 @@ Number(id)
 return NextResponse.json(
 history
 );
+
+
+}
+
+catch(error){
+
+
+return NextResponse.json(
+
+{
+error:
+"Unable to load history"
+},
+
+{
+status:500
+}
+
+);
+
+
+}
 
 }

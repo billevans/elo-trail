@@ -16,16 +16,27 @@ import StatsGrid
 from "@/components/player/stats-grid";
 
 
+import RatingHistorySection
+from "@/components/player/rating-history-section";
+
+
+
 interface Props {
+
   params: Promise<{
     id: string;
   }>;
+
 }
 
 
+
 export default async function PlayerPage({
+
   params
+
 }: Props) {
+
 
   const {
     id
@@ -36,14 +47,19 @@ export default async function PlayerPage({
     Number(id);
 
 
+
   if (
     Number.isNaN(playerId)
   ) {
+
     notFound();
+
   }
 
 
+
   let player;
+
 
 
   try {
@@ -53,11 +69,14 @@ export default async function PlayerPage({
         playerId
       );
 
-  } catch {
+  }
+
+  catch {
 
     notFound();
 
   }
+
 
 
   return (
@@ -68,31 +87,86 @@ export default async function PlayerPage({
       "
     >
 
+
       <PlayerHeader
-        player={player}
+
+        player={
+          player
+        }
+
       />
+
 
 
       <section>
 
+
         <h2
+
           className="
             mb-6
             text-2xl
             font-semibold
           "
+
         >
+
           Ratings
+
         </h2>
 
 
-       <StatsGrid
-      ratings={
-    player?.ratings ?? []
-    }
-  />
+
+        <StatsGrid
+
+          ratings={
+            player.ratings ?? []
+          }
+
+        />
+
 
       </section>
+
+
+
+
+      <section
+
+        className="
+          mt-12
+        "
+
+      >
+
+
+        <h2
+
+          className="
+            mb-6
+            text-2xl
+            font-semibold
+          "
+
+        >
+
+          ELO History
+
+        </h2>
+
+
+
+        <RatingHistorySection
+
+          playerId={
+            player.profile_id
+          }
+
+        />
+
+
+      </section>
+
 
 
     </div>
